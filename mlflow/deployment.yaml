@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-tracking-server
+  namespace: seldon
+  labels:
+      app: mlflow-tracking-server
+spec:
+  # The replica count is kept to one for simplicity purposes.
+  # To create a highly available app, the replica count would
+  # be higher.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow-tracking-server-pods
+  template:
+    metadata:
+      labels:
+        app: mlflow-tracking-server-pods
+    spec:
+      containers:
+        - name: mlflow-tracking-server-pod
+          image: khaosericsson/mlflow:latest
+          imagePullPolicy: Always
+          env:
+          -  name: AWS_ACCESS_KEY_ID
+             valueFrom:
+               secretKeyRef:
+                 name: mlflow-secret
+                 key: AWS_ACCESS_KEY_ID
+          -  name: AWS_SECRET_ACCESS_KEY
+             valueFrom:
+               secretKeyRef:
+                 name: mlflow-secret
+                 key: AWS_SECRET_ACCESS_KEY
+          -  name: MLFLOW_S3_ENDPOINT_URL
+             valueFrom:
+               secretKeyRef:
+                 name: mlflow-secret
+                 key: MLFLOW_S3_ENDPOINT_URL
+          -  name: MLFLOW_S3_IGNORE_TLS
+             valueFrom:
+               secretKeyRef:
+                 name: mlflow-secret
+                 key: MLFLOW_S3_IGNORE_TLS
+          -  name: DB_USERNAME
+             valueFrom:
+               configMapKeyRef:
+                 name: mlflow-configmap
+                 key: DB_USERNAME
+          -  name: DB_NAME
+             valueFrom:
+               configMapKeyRef:
+                 name: mlflow-configmap
+                 key: DB_NAME
+          -  name: DB_URL
+             valueFrom:
+               configMapKeyRef:
+                 name: mlflow-configmap
+                 key: DB_URL
+          -  name: DB_PASSWORD
+             valueFrom:
+               secretKeyRef:
+                 name: mlflow-secret
+                 key: DB_PASSWORD
+          -  name: MLFLOW_S3_BUCKET
+             valueFrom:
+               secretKeyRef:
+                 name: mlflow-secret
+                 key: MLFLOW_S3_BUCKET
