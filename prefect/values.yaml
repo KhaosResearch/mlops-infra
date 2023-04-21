@@ -3,7 +3,10 @@ server:
   image:
     repository: "prefecthq/prefect"
     prefectTag: "2.10.4-python3.11-kubernetes"
-  publicApiUrl: "http://192.168.219.33:4200/api"
+  service:
+    type: NodePort
+    nodePort: <PREFECT-API-PORT>
+  publicApiUrl: "http://192.168.219.33:<PREFECT-API-PORT>/api"
 
 # Postgresql configuration
 postgresql:
