@@ -28,10 +28,52 @@ Versions:
 
 ### How to deploy server in K8s:
 
-`create namespace mlops-prefect`
+- Create namespace  
+  
+  `create namespace mlops-prefect`
 
-`helm repo add prefect https://prefecthq.github.io/prefect-helm`
+- Add prefect helm repo  
+  
+  `helm repo add prefect https://prefecthq.github.io/prefect-helm`
 
-`helm search repo prefect`
+- Search prefect helm repo  
+  
+  `helm search repo prefect`
 
-`helm install prefect-server prefect/prefect-server -n mlops-prefect -f prefect/values_server.yaml --version 2023.04.13`
+- Install prefect server in created namespace using custom values    
+  
+  `helm install prefect-server prefect/prefect-server -n mlops-prefect -f prefect/values_server.yaml --version 2023.04.13`
+
+### Configure a client to use the server
+
+- Install prefect in the client  
+  
+  `pip install prefect==2.10.4 prefect-kubernetes==0.2.4`
+
+- Create server profile and modify api url parameter  
+  
+  `prefect profile create server`  
+
+  `prefect profile use 'server' `   
+
+  `prefect config set PREFECT_API_URL="http://192.168.219.33:<PREFECT-API-PORT>/api"`
+
+### Create useful blocks
+
+- Execute the file `init_blocks.py`, which creates useful blocks (MinIO user and password has to be added first).  
+  
+  `python prefect/init_blocks.py`
+
+- Create a work pool for sending flows that will be executed in Kubernetes
+  
+  `prefect work-pool create k8s-pool`
+
+- Create a deployment for the testing flow using the K8s infrastructure (should be similar to the one in guthub `test_flow_deployment.yaml`)   
+  
+  `prefect deployment build -n test-flow-deployment-k8s -p k8s-pool -ib kubernetes-job/k8s-infra -sb s3/khaos-minio  -o test_flow_deployment.yaml test_flow.py:my_flow`  
+
+  `prefect deployment apply test_flow_deployment.yaml`
+
+- Create a quick run of the deployment using the UI and check if the flow is succesfully executed (an agent have to be created first)
+
+  `prefect agent start --pool k8s-pool --work-queue default`

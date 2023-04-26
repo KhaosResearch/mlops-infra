@@ -1,2 +1,8 @@
 #Pyenv
 .python-version
+
+#Prefect
+.prefectignore
+
+#Python
+__pycache__
