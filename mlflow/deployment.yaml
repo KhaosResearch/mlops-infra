@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mlflow-tracking-server
-  namespace: seldon
+  namespace: mlops-mlflow
   labels:
       app: mlflow-tracking-server
 spec:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: mlflow-tracking-server-pod
-          image: khaosericsson/mlflow:latest
+          image: ghcr.io/khaosresearch/mlflow:latest
           imagePullPolicy: Always
           env:
           -  name: AWS_ACCESS_KEY_ID

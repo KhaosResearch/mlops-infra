@@ -2,8 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mlflow-configmap
-  namespace: seldon
+  namespace: mlops-mlflow
 data:
   DB_NAME: "mlflow-tracking-server"
-  DB_URL: "postgresql-mlflow.seldon.svc.cluster.local"
+  DB_URL: "postgresql-mlflow.mlops-mlflow.svc.cluster.local"
   DB_USERNAME: "postgres"

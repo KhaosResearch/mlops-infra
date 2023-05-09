@@ -4,7 +4,7 @@ metadata:
   labels:
     app: mlflow-tracking-server
   name: mlflow-tracking-server
-  namespace: seldon
+  namespace: mlops-mlflow
 spec:
   ports:
   - port: 5000

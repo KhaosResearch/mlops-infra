@@ -12,9 +12,54 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 
 ## MLflow installation
 
+- Install postgreSQL
+
+  ```
+  helm install postgresql-mlflow bitnami/postgresql -n mlops-mlflow \
+  --set global.postgresql.auth.database=mlflow-tracking-server \
+  --set global.postgresql.auth.postgresPassword=password
+  ```
+
+- Deploy secret and configmap defining required variables
+
+  `kubectl apply -f mlflow/configmap.yaml`
+  `kubectl apply -f mlflow/secret.yaml`
+
+- Deploy mlflow using defined variables, the mlflow image was already built and pushed to `ghcr.io`. `Dockerfile` is also in the folder anyways.
+
+  `kubectl apply -f mlflow/deployment.yaml`
+
+- Deploy service and nodeport, making mlflow UI accesible at `http://192.168.219.33:<MLFLOW-PORT>/`
+
+  `kubectl apply -f mlflow/service.yaml`
+  `kubectl apply -f mlflow/nodeport.yaml`
+
+- TODO test mlflow model registry
 
 ## Seldon Core installation
 
+- Download istio
+
+  `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 TARGET_ARCH=x86_64 sh -`
+
+- Install istio
+
+  `./istio-1.17.2/bin/istioctl install --set profile=demo -y`
+
+- Create required gateway 
+
+  `kubectl apply -f ./seldon/seldon-gateway.yaml`
+
+- Install Seldon (using Istio)
+
+  ```
+  helm install seldon-core seldon-core-operator \
+    --repo https://storage.googleapis.com/seldon-charts \
+    --set istio.enabled=true \
+    --namespace mlops-seldon
+    ```
+
+- TODO deploy test model
 
 ## Prefect Server installation
 
@@ -67,6 +112,8 @@ Versions:
 - Create a work pool for sending flows that will be executed in Kubernetes
   
   `prefect work-pool create k8s-pool`
+
+### Create and run a deployment
 
 - Create a deployment for the testing flow using the K8s infrastructure (should be similar to the one in guthub `test_flow_deployment.yaml`)   
   
