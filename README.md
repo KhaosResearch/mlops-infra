@@ -13,8 +13,11 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 ## MLflow installation
 
 - (Optional) if the clusted doesnt have a default PV:
-  `helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/`
-  `helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=<CLUSTER-IP> --set nfs.path=/mnt/nfs_share --version 4.0.18`
+
+  `helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/`  
+  
+  `helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=<CLUSTER-IP> --set nfs.path=/mnt/nfs_share --version 4.0.18`  
+  
   `kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`
 
 - Install postgreSQL
@@ -28,6 +31,7 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 - Deploy secret and configmap defining required variables
 
   `kubectl apply -f mlflow/configmap.yaml`
+  
   `kubectl apply -f mlflow/secret.yaml`
 
 - Deploy mlflow using defined variables, the mlflow image was already built and pushed to `ghcr.io`. `Dockerfile` is also in the folder anyways.
@@ -37,6 +41,7 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 - Deploy service and nodeport, making mlflow UI accesible at `http://<CLUSTER-IP>:<MLFLOW-PORT>/`
 
   `kubectl apply -f mlflow/service.yaml`
+  
   `kubectl apply -f mlflow/nodeport.yaml`
 
 - TODO test mlflow model registry
