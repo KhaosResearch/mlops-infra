@@ -12,12 +12,17 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 
 ## MLflow installation
 
+- (Optional) if the clusted doesnt have a default PV:
+  `helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/`
+  `helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=<CLUSTER-IP> --set nfs.path=/mnt/nfs_share --version 4.0.18`
+  `kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`
+
 - Install postgreSQL
 
   ```
   helm install postgresql-mlflow bitnami/postgresql -n mlops-mlflow \
   --set global.postgresql.auth.database=mlflow-tracking-server \
-  --set global.postgresql.auth.postgresPassword=password
+  --set global.postgresql.auth.postgresPassword=khaosdev
   ```
 
 - Deploy secret and configmap defining required variables
@@ -29,7 +34,7 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 
   `kubectl apply -f mlflow/deployment.yaml`
 
-- Deploy service and nodeport, making mlflow UI accesible at `http://192.168.219.33:<MLFLOW-PORT>/`
+- Deploy service and nodeport, making mlflow UI accesible at `http://<CLUSTER-IP>:<MLFLOW-PORT>/`
 
   `kubectl apply -f mlflow/service.yaml`
   `kubectl apply -f mlflow/nodeport.yaml`
@@ -75,7 +80,7 @@ Versions:
 
 - Create namespace  
   
-  `create namespace mlops-prefect`
+  `kubectl create namespace mlops-prefect`
 
 - Add prefect helm repo  
   
@@ -87,7 +92,7 @@ Versions:
 
 - Install prefect server in created namespace using custom values    
   
-  `helm install prefect-server prefect/prefect-server -n mlops-prefect -f prefect/values_server.yaml --version 2023.04.13`
+  `helm install prefect-server prefect/prefect-server -n mlops-prefect -f prefect/values.yaml --version 2023.04.13`
 
 ### Configure a client to use the server
 
@@ -101,7 +106,7 @@ Versions:
 
   `prefect profile use 'server' `   
 
-  `prefect config set PREFECT_API_URL="http://192.168.219.33:<PREFECT-API-PORT>/api"`
+  `prefect config set PREFECT_API_URL="http://<CLUSTER-IP>:<PREFECT-API-PORT>/api"`
 
 ### Create useful blocks
 
@@ -115,9 +120,13 @@ Versions:
 
 ### Create and run a deployment
 
-- Create a deployment for the testing flow using the K8s infrastructure (should be similar to the one in guthub `test_flow_deployment.yaml`)   
+- Create a deployment for the testing flow using the K8s infrastructure (should be similar to the one in github `test_flow_deployment.yaml`). To let prefect uploading deployment files to the storage block (MinIO), environment variable `FSSPEC_S3_ENDPOINT_URL` has to be set. 
   
-  `prefect deployment build -n test-flow-deployment-k8s -p k8s-pool -ib kubernetes-job/k8s-infra -sb s3/khaos-minio  -o test_flow_deployment.yaml test_flow.py:my_flow`  
+  `cd prefect/test-flow`
+
+  `export FSSPEC_S3_ENDPOINT_URL=http://<S3-IP>:<S3-PORT>`
+
+  `prefect deployment build -n test-flow-deployment-k8s -p k8s-pool -ib kubernetes-job/k8s-infra -sb s3/khaos-minio -o test_flow_deployment.yaml test_flow.py:flow`  
 
   `prefect deployment apply test_flow_deployment.yaml`
 

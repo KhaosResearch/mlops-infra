@@ -1,9 +1,9 @@
 ###
-### A complete description of a Prefect Deployment for flow 'my-flow'
+### A complete description of a Prefect Deployment for flow 'flow'
 ###
 name: test-flow-deployment-k8s
 description: null
-version: 2fb86d96b9668030d5b79634838edf75
+version: 10f5e4296bd073076b34965cb738f6e0
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 work_pool_name: k8s-pool
@@ -16,13 +16,13 @@ infra_overrides: {}
 ###
 ### DO NOT EDIT BELOW THIS LINE
 ###
-flow_name: my-flow
+flow_name: flow
 manifest_path: null
 infrastructure:
   type: kubernetes-job
   env:
-    PREFECT_API_URL: http://192.168.219.33:<PREFECT-API-PORT>/api
-    EXTRA_PIP_PACKAGES: s3fs
+    PREFECT_API_URL: http://<CLUSTER-IP>:<PREFECT-API-PORT>/api
+    EXTRA_PIP_PACKAGES: s3fs==2023.4.0
     FSSPEC_S3_ENDPOINT_URL: http://<S3-IP>:<S3-PORT>
   labels: {}
   name: null
@@ -31,7 +31,7 @@ infrastructure:
   namespace: mlops-prefect
   service_account_name: null
   image_pull_policy: IfNotPresent
-  cluster_config: null
+  cluster_config: '**********'
   job:
     apiVersion: batch/v1
     kind: Job
@@ -51,7 +51,7 @@ infrastructure:
   pod_watch_timeout_seconds: 60
   stream_output: true
   finished_job_ttl: 60
-  _block_document_id: c2937f64-b642-4f5f-85c3-87dc7379c544
+  _block_document_id: 753ce9ab-22ba-44ff-a165-7bbbc2fbb990
   _block_document_name: k8s-infra
   _is_anonymous: false
   block_type_slug: kubernetes-job
@@ -60,17 +60,17 @@ storage:
   bucket_path: ***REMOVED***/prefect
   aws_access_key_id: '**********'
   aws_secret_access_key: '**********'
-  _block_document_id: 750b5223-6683-47d2-a3bc-7c5ef89a1e5e
+  _block_document_id: c0ab83ae-b71d-4680-9ba5-e8d49533ef64
   _block_document_name: khaos-minio
   _is_anonymous: false
   block_type_slug: s3
   _block_type_slug: s3
 path: ''
-entrypoint: test_flow.py:my_flow
+entrypoint: test_flow.py:flow
 parameter_openapi_schema:
   title: Parameters
   type: object
   properties: {}
   required: null
   definitions: null
-timestamp: '2023-04-26T13:12:20.237078+00:00'
+timestamp: '2023-06-06T08:39:38.021879+00:00'

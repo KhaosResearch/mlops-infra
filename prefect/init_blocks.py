@@ -15,7 +15,7 @@ k8s_config = KubernetesClusterConfig.from_file(
 
 infra_k8s = KubernetesJob(
     env={
-        'PREFECT_API_URL': 'http://192.168.219.33:<PREFECT-API-PORT>/api',
+        'PREFECT_API_URL': 'http://<CLUSTER-IP>:<PREFECT-API-PORT>/api',
         'EXTRA_PIP_PACKAGES': 's3fs==2023.4.0',
         'FSSPEC_S3_ENDPOINT_URL': 'http://<S3-IP>:<S3-PORT>'
     },
@@ -27,6 +27,9 @@ infra_k8s = KubernetesJob(
     finished_job_ttl=60
 )
 
-k8s_config.save("k8s-config", overwrite=False)
-minio_creds.save("khaos-minio", overwrite=False)
-infra_k8s.save("k8s-infra", overwrite=False)
+k8s_config.save("k8s-config", overwrite=True)
+print("KubernetesClusterConfig/k8s-config deployed")
+minio_creds.save("khaos-minio", overwrite=True)
+print("S3/khaos-minio deployed")
+infra_k8s.save("k8s-infra", overwrite=True)
+print("KubernetesJob/k8s-infra deployed")
