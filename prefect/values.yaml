@@ -11,4 +11,7 @@ service:
 # Postgresql configuration
 postgresql:
   auth:
-    password: khaosdev
+    password: password
+  primary:
+    persistence:
+      enabled: true
