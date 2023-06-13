@@ -67,6 +67,7 @@ This repository contains a set of files for deploying an MLOps environment on Ku
     --repo https://storage.googleapis.com/seldon-charts \
     --set istio.enabled=true \
     --namespace mlops-seldon
+    --version 1.16.0
     ```
 
 - TODO deploy test model
