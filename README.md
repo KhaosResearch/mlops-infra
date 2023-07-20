@@ -7,10 +7,16 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 - **Seldon Core**: for model deployment.
 - **Prefect**: for pipeline management.
 - **MinIO**: for object storage.
-- Maybe **Prometheus** will be added
+- **Prometheus** for runtime monitoring and alerting
 
 
 ## MLflow installation
+
+Versions:
+
+- Python 3.11.3
+- PostgreSQL chart version 12.5.6
+- Postgre version 15.3.0
 
 - (Optional) if the clusted doesnt have a default PV:
 
@@ -25,7 +31,8 @@ This repository contains a set of files for deploying an MLOps environment on Ku
   ```
   helm install postgresql-mlflow bitnami/postgresql -n mlops-mlflow \
   --set global.postgresql.auth.database=mlflow-tracking-server \
-  --set global.postgresql.auth.postgresPassword=khaosdev
+  --set global.postgresql.auth.postgresPassword=khaosdev \
+  --version 12.5.6
   ```
 
 - Deploy secret and configmap defining required variables
@@ -48,6 +55,12 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 
 ## Seldon Core installation
 
+Versions:
+
+- Python 3.11.3
+- Seldon Core chart 1.16.0
+- Seldon Core 1.16.0
+
 - Download istio
 
   `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 TARGET_ARCH=x86_64 sh -`
@@ -66,7 +79,8 @@ This repository contains a set of files for deploying an MLOps environment on Ku
   helm install seldon-core seldon-core-operator \
     --repo https://storage.googleapis.com/seldon-charts \
     --set istio.enabled=true \
-    --namespace mlops-seldon
+    --namespace mlops-seldon \
+    --version 1.16.0
     ```
 
 - TODO deploy test model
@@ -80,6 +94,7 @@ Versions:
 - Python 3.11.3
 - Prefect chart 2023.04.13
 - Prefect 2.10.4
+- Prefect Kubernetes 0.2.4
 
 ### How to deploy server in K8s:
 
@@ -138,3 +153,19 @@ Versions:
 - Create a quick run of the deployment using the UI and check if the flow is succesfully executed (an agent have to be created first)
 
   `prefect agent start --pool k8s-pool --work-queue default`
+
+## Prometheus operator installation
+
+Versions:
+
+- Python 3.11.3
+- Prometheus operator chart version 8.3.2
+- Postgre version 15.3.0
+
+- Create a namespace
+
+  `kubectl create namespace mlops-prometheus`  
+
+- Install Prometheus operator in created namespace using custom values 
+    
+  `helm install prometheus bitnami/kube-prometheus --version 8.3.2 --namespace mlops-prometheus -f prometheus/values.yaml` 
