@@ -8,6 +8,8 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 - **Prefect**: for pipeline management.
 - **MinIO**: for object storage.
 - **Prometheus** for runtime monitoring and alerting
+- **Kafka**: for streaming prediction requests to drift detection service
+- **Drift**: for data drift and concept drift detection
 
 
 ## MLflow installation
@@ -170,7 +172,7 @@ Versions:
     
   `helm install prometheus bitnami/kube-prometheus --version 8.3.2 --namespace mlops-prometheus -f prometheus/values.yaml` 
 
-# Kafka installation
+## Kafka installation
 
 Versions:
 
