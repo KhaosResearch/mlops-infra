@@ -13,4 +13,5 @@ COPY drift_detector.py /home
 
 EXPOSE 8000
 
-CMD ["python", "drift_detector.py" "--model-name", "creditcard", "--model-version", "latest", "--algorithm", "online-MMD"]
+ENTRYPOINT ["python", "drift_detector.py"]
+CMD ["--model-name", "test-model", "--model-version", "latest", "--algorithm", "test-algorithm"]

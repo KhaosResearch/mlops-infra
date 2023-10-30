@@ -19,34 +19,35 @@ spec:
       - name: drift-detector-app
         image: ghcr.io/khaosresearch/drift_detector:latest
         imagePullPolicy: Always
+        args: ["--model-name", "creditcard", "--model-version", "latest", "--algorithm", "online-MMD"]
         env:
-        -  name: AWS_ACCESS_KEY_ID
-            valueFrom:
-              secretKeyRef:
-                name: drift-secret
-                key: AWS_ACCESS_KEY_ID
-        -  name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: drift-secret
-                key: AWS_SECRET_ACCESS_KEY
-        -  name: MLFLOW_S3_ENDPOINT_URL
-            valueFrom:
-              secretKeyRef:
-                name: drift-secret
-                key: MLFLOW_S3_ENDPOINT_URL
-        -  name: MLFLOW_S3_IGNORE_TLS
-            valueFrom:
-              secretKeyRef:
-                name: drift-secret
-                key: MLFLOW_S3_IGNORE_TLS
-        -  name: MLFLOW_TRACKING_URI
-            valueFrom:
-              configMapKeyRef:
-                name: drift-configmap
-                key: MLFLOW_TRACKING_URI
-        -  name: KAFKA_BOOTSTRAP_SERVERS
-            valueFrom:
-              configMapKeyRef:
-                name: drift-configmap
-                key: KAFKA_BOOTSTRAP_SERVERS
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: drift-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: drift-secret
+              key: AWS_SECRET_ACCESS_KEY
+        - name: MLFLOW_S3_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: drift-secret
+              key: MLFLOW_S3_ENDPOINT_URL
+        - name: MLFLOW_S3_IGNORE_TLS
+          valueFrom:
+            secretKeyRef:
+              name: drift-secret
+              key: MLFLOW_S3_IGNORE_TLS
+        - name: MLFLOW_TRACKING_URI
+          valueFrom:
+            configMapKeyRef:
+              name: drift-configmap
+              key: MLFLOW_TRACKING_URI
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          valueFrom:
+            configMapKeyRef:
+              name: drift-configmap
+              key: KAFKA_BOOTSTRAP_SERVERS
