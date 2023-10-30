@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drift-detector-app
+  namespace: mlops-drift
+  labels:
+      app: drift-detector-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drift-detector-app
+  template:
+    metadata:
+      labels:
+        app: drift-detector-app
+    spec:
+      containers:
+      - name: drift-detector-app
+        image: ghcr.io/khaosresearch/drift_detector:latest
+        imagePullPolicy: Always
+        env:
+        -  name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: drift-secret
+                key: AWS_ACCESS_KEY_ID
+        -  name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: drift-secret
+                key: AWS_SECRET_ACCESS_KEY
+        -  name: MLFLOW_S3_ENDPOINT_URL
+            valueFrom:
+              secretKeyRef:
+                name: drift-secret
+                key: MLFLOW_S3_ENDPOINT_URL
+        -  name: MLFLOW_S3_IGNORE_TLS
+            valueFrom:
+              secretKeyRef:
+                name: drift-secret
+                key: MLFLOW_S3_IGNORE_TLS
+        -  name: MLFLOW_TRACKING_URI
+            valueFrom:
+              configMapKeyRef:
+                name: drift-configmap
+                key: MLFLOW_TRACKING_URI
+        -  name: KAFKA_BOOTSTRAP_SERVERS
+            valueFrom:
+              configMapKeyRef:
+                name: drift-configmap
+                key: KAFKA_BOOTSTRAP_SERVERS

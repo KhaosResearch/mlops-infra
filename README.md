@@ -169,3 +169,18 @@ Versions:
 - Install Prometheus operator in created namespace using custom values 
     
   `helm install prometheus bitnami/kube-prometheus --version 8.3.2 --namespace mlops-prometheus -f prometheus/values.yaml` 
+
+# Kafka installation
+
+Versions:
+
+- Python 3.11.3
+- Prometheus operator chart version 25.1.12
+
+- Create a namespace
+
+  `kubectl create namespace mlops-kafka` 
+
+- Install Kafka in created namespace using custom values
+
+  `helm install kafka -n mlops-kafka oci://registry-1.docker.io/bitnamicharts/kafka -f kafka/values.yaml --version 25.1.12`

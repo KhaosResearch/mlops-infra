@@ -1,0 +1,20 @@
+service:
+  type: NodePort
+  nodePorts:
+    external: "<KAFKA-SERVICE-PORT>" 
+externalAccess:
+  enabled: true
+  autoDiscovery:
+    enabled: true
+  controller:
+    service:
+      type: NodePort
+      nodePorts: 
+        - <KAFKA-CONTROLLER-PORT-1>
+        - <KAFKA-CONTROLLER-PORT-2>
+        - <KAFKA-CONTROLLER-PORT-3>
+listeners:
+  external:
+    protocol: PLAINTEXT
+rbac:
+  create: true
