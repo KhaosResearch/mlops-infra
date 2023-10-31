@@ -3,11 +3,13 @@ kind: Service
 metadata:
   name: drift-detector-service
   namespace: mlops-drift
+  labels:
+    app: drift-detector-app
 spec:
   selector:
     app: drift-detector-app
   ports:
-    - protocol: TCP
-      port: 8000
-      targetPort: 8000
-  type: LoadBalancer
+  - name: metrics
+    protocol: TCP
+    port: 8000
+    targetPort: 8000

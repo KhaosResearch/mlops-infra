@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: drift-servicemonitor
+  namespace: mlops-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: drift-detector-app
+  endpoints:
+  - port: metrics
+    path: /metrics
+  namespaceSelector:
+    any: true
