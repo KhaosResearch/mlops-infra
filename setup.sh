@@ -23,7 +23,4 @@ sed -i "s/<KAFKA-CONTROLLER-PORT-2>/$KAFKA_CONTROLLER_PORT_2/g" $(grep -rl '<KAF
 sed -i "s/<KAFKA-CONTROLLER-PORT-3>/$KAFKA_CONTROLLER_PORT_3/g" $(grep -rl '<KAFKA-CONTROLLER-PORT-3>' *)
 sed -i "s/<S3-PORT>/$S3_PORT/g" $(grep -rl '<S3-PORT>' *)
 
-# Proceed with deployment steps as outlined in the README
-# ...
-
-echo "Setup completed. Proceed with deployment steps as outlined in the README."
+echo "Config variables setup completed. Proceed with deployment steps of each service as outlined in the README."
