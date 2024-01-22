@@ -27,6 +27,7 @@ Before deploying the MLOps infrastructure, please perform the following steps:
 3. Execute the `setup.sh` script to replace the placeholders in all the files with the values in `config.conf`:
 
   ```bash
+    chmod +x setup.sh
     ./setup.sh
   ```
 
