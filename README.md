@@ -231,7 +231,7 @@ Versions:
 Versions:
 
 - Python 3.11.3
-- Prometheus operator chart version 25.1.12
+- Kafka chart version 25.1.12
 
 - Create a namespace
 
