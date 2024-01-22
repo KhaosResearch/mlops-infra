@@ -11,6 +11,26 @@ This repository contains a set of files for deploying an MLOps environment on Ku
 - **Kafka**: for streaming prediction requests to drift detection service
 - **Drift**: for data drift and concept drift detection
 
+## Before you begin
+
+Before deploying the MLOps infrastructure, please perform the following steps:
+
+1. Clone this repository:
+
+  ```bash
+    git clone https://github.com/KhaosResearch/mlops-infra.git
+    cd mlops-infra
+  ```
+
+2. Run the following sed commands to replace placeholders with your specific cluster and MinIO/S3 IP addresses. Feel free to replace "your_kubernetes_cluster_ip" and "your_minio_s3_ip" with the actual IP addresses that users need to provide:
+
+  ```bash
+    # Replace <CLUSTER-IP> with your Kubernetes cluster IP
+    sed -i 's/<CLUSTER-IP>/your_kubernetes_cluster_ip/g' $(grep -rl '<CLUSTER-IP>' *)
+
+    # Replace <S3-IP> with your MinIO/S3 IP
+    sed -i 's/<S3-IP>/your_minio_s3_ip/g' $(grep -rl '<S3-IP>' *)
+  ```
 
 ## MLflow installation
 
