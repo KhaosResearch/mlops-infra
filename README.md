@@ -22,7 +22,7 @@ Before deploying the MLOps infrastructure, please perform the following steps:
     cd mlops-infra
   ```
 
-2. Run the following sed commands to replace placeholders with your specific cluster and MinIO/S3 IP addresses. Feel free to replace "your_kubernetes_cluster_ip" and "your_minio_s3_ip" with the actual IP addresses that users need to provide:
+2. Run the following sed commands to replace placeholders with your specific cluster and MinIO/S3 IP addresses. *Feel free to replace "your_kubernetes_cluster_ip" and "your_minio_s3_ip" with the actual IP addresses.*
 
   ```bash
     # Replace <CLUSTER-IP> with your Kubernetes cluster IP
@@ -30,6 +30,13 @@ Before deploying the MLOps infrastructure, please perform the following steps:
 
     # Replace <S3-IP> with your MinIO/S3 IP
     sed -i 's/<S3-IP>/your_minio_s3_ip/g' $(grep -rl '<S3-IP>' *)
+  ```
+
+3. Run the following sed commands to replace placeholders with your specific ports.
+
+  ```bash
+    # Replace <PREFECT-API-PORT> with your Prefect API port
+    sed -i 's/<PREFECT-API-PORT>/your_prefect_api_port/g' $(grep -rl '<PREFECT-API-PORT>' *)
   ```
 
 ## MLflow installation
