@@ -22,21 +22,50 @@ Before deploying the MLOps infrastructure, please perform the following steps:
     cd mlops-infra
   ```
 
-2. Run the following sed commands to replace placeholders with your specific cluster and MinIO/S3 IP addresses. *Feel free to replace "your_kubernetes_cluster_ip" and "your_minio_s3_ip" with the actual IP addresses.*
+1. Run the following sed commands to replace placeholders in the repository with your specific cluster and MinIO/S3 IP addresses.
 
   ```bash
-    # Replace <CLUSTER-IP> with your Kubernetes cluster IP
+    # Replace your_kubernetes_cluster_ip with your Kubernetes cluster IP
     sed -i 's/<CLUSTER-IP>/your_kubernetes_cluster_ip/g' $(grep -rl '<CLUSTER-IP>' *)
-
-    # Replace <S3-IP> with your MinIO/S3 IP
+  ```
+  ```bash
+    # Replace your_minio_s3_ip with your MinIO/S3 IP
     sed -i 's/<S3-IP>/your_minio_s3_ip/g' $(grep -rl '<S3-IP>' *)
   ```
 
-3. Run the following sed commands to replace placeholders with your specific ports.
+3. Run the following sed commands to replace placeholders in the repository with your specific ports.
 
   ```bash
-    # Replace <PREFECT-API-PORT> with your Prefect API port
+    # Replace your_prefect_api_port with your Prefect API port
     sed -i 's/<PREFECT-API-PORT>/your_prefect_api_port/g' $(grep -rl '<PREFECT-API-PORT>' *)
+  ```
+  ```bash
+    # Replace your_mlflow_port with your mlflow port
+    sed -i 's/<MLFLOW-PORT>/your_mlflow_port/g' $(grep -rl '<MLFLOW-PORT>' *)
+  ```
+  ```bash
+    # Replace your_phometheus_port with your Prometheus port
+    sed -i 's/<PROMETHEUS-PORT>/your_phometheus_port/g' $(grep -rl '<PROMETHEUS-PORT>' *)
+  ```
+  ```bash
+    # Replace your_kafka_service_port with your kafka service port
+    sed -i 's/<KAFKA-SERVICE-PORT>/your_kafka_service_port/g' $(grep -rl '<KAFKA-SERVICE-PORT>' *)
+  ```
+  ```bash
+    # Replace your_kafka_controller_1_port with your first kafka controller port
+    sed -i 's/<KAFKA-CONTROLLER-PORT-1>/your_kafka_controller_1_port/g' $(grep -rl '<KAFKA-CONTROLLER-PORT-1>' *)
+  ```
+  ```bash
+    # Replace your_kafka_controller_2_port with your second kafka controller port
+    sed -i 's/<KAFKA-CONTROLLER-PORT-2>/your_kafka_controller_2_port/g' $(grep -rl '<KAFKA-CONTROLLER-PORT-2>' *)
+  ```
+  ```bash
+    # Replace your_kafka_controller_3_port with your third kafka controller port
+    sed -i 's/<KAFKA-CONTROLLER-PORT-3>/your_kafka_controller_3_port/g' $(grep -rl '<KAFKA-CONTROLLER-PORT-3>' *)
+  ```
+  ```bash
+    # Replace your_s3_port with your S3 port
+    sed -i 's/<S3-PORT>/your_s3_port/g' $(grep -rl '<S3-PORT>' *)
   ```
 
 ## MLflow installation
@@ -79,8 +108,6 @@ Versions:
   `kubectl apply -f mlflow/service.yaml`
   
   `kubectl apply -f mlflow/nodeport.yaml`
-
-- TODO test mlflow model registry
 
 ## Seldon Core installation
 
