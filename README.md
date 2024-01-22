@@ -102,8 +102,6 @@ Versions:
     --version 1.16.0
     ```
 
-- TODO deploy test model
-
 ## Prefect Server installation
 
 [Helm chart repo](https://github.com/PrefectHQ/prefect-helm/tree/main)
