@@ -1,4 +1,13 @@
 # MLOps Infrastructure
+[![DOI](https://zenodo.org/badge/DOI/10.1109/MS.2024.3421675.svg)](https://doi.org/10.1109/MS.2024.3421675)
+
+A research article describing the methodology followed on this workflow can be found at:
+
+> **Towards an open-source MLOps architecture.**
+> 
+> Antonio Manuel Burgueño Romero, Antonio Benítez Hidalgo, Cristóbal Barba González & José F. Aldana Martín
+> 
+> IEEE Software (2024).
 
 This repository contains a set of files for deploying an MLOps environment on Kubernetes, with the following services:
 
